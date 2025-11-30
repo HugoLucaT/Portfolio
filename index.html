@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hugo Luca Tigane - Portfolio</title>
+
+<style>
+    :root {
+        --bg: #0d0d0d;
+        --accent: #4e8cff;
+        --text: #f5f5f5;
+        --muted: #cccccc;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Inter", sans-serif; }
+
+    body {
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 20px;
+        gap: 30px;
+        position: relative;
+    }
+
+    .timeline {
+        width: 100%;
+        max-width: 800px;
+        margin: 30px auto;
+        position: relative;
+    }
+
+    .timeline-container {
+        position: relative;
+        padding: 20px 0;
+    }
+
+    .timeline-container::after {
+        content: '';
+        position: absolute;
+        width: 2px;
+        background: var(--accent);
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -1px;
+    }
+
+    .timeline-entry {
+        position: relative;
+        width: 50%;
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        color: var(--text);
+    }
+
+    .timeline-entry.left {
+        left: 0;
+        text-align: right;
+    }
+
+    .timeline-entry.right {
+        left: 50%;
+        text-align: left;
+    }
+
+    .timeline-entry::before {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: var(--accent);
+        border-radius: 50%;
+        top: 8px;
+    }
+
+    .timeline-entry.left::before {
+        right: -5px;
+    }
+
+    .timeline-entry.right::before {
+        left: -5px;
+    }
+
+    .timeline-entry h3 {
+        font-weight: bold;
+        margin-bottom: 2px;
+    }
+
+    .timeline-entry p {
+        color: var(--muted);
+        margin-bottom: 2px;
+    }
+
+    .timeline-entry span {
+        color: var(--accent);
+        font-size: 0.85rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        .timeline-entry {
+            width: 100%;
+            padding-left: 40px;
+            padding-right: 20px;
+            text-align: left !important;
+        }
+
+        .timeline-entry.left, .timeline-entry.right {
+            left: 0 !important;
+        }
+
+        .timeline-entry::before {
+            left: 20px !important;
+        }
+
+        .timeline-container::after {
+            left: 20px;
+        }
+    }
+
+
+    .lang-switch {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .lang-switch button {
+        background: var(--accent);
+        border: none;
+        padding: 8px 15px;
+        margin: 0 5px;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: 0.2s;
+    }
+
+    .lang-switch button:hover { transform: scale(1.1); }
+
+    header h1 { font-size: 3rem; margin-bottom: 10px; text-align: center; }
+    header p { color: var(--muted); max-width: 600px; text-align: center; margin-bottom: 15px; }
+
+    .projects {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .card {
+        background: #1b1b1b;
+        padding: 20px;
+        border-radius: 15px;
+        width: 250px;
+        border: 1px solid #2a2a2a;
+        text-align: center;
+        transition: 0.25s;
+        cursor: pointer;
+    }
+
+    .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+
+    .card h3 { margin-bottom: 10px; }
+    .card p { color: var(--muted); font-size: 0.9rem; }
+
+    .bottom {
+        position: fixed;
+        bottom: 10px;
+        text-align: center;
+        color: var(--muted);
+    }
+
+    .bottom p { margin-bottom: 5px; }
+
+    #contact_container {
+        padding: 5px;
+    }
+
+    #contact_text {
+        display: inline;
+    }
+
+    .copy-email {
+        cursor: pointer;
+        text-decoration: underline;
+        position: relative;
+    }
+
+    #tooltip {
+        visibility: hidden;
+        background-color: var(--accent);
+        color: #fff;
+        text-align: center;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        position: absolute;
+        top: -35px; /* position above the email */
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        pointer-events: none;
+    }
+
+    #tooltip.show {
+        visibility: visible;
+        opacity: 1;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="lang-switch">
+    <button onclick="setLanguage('en')">English</button>
+    <button onclick="setLanguage('est')">Eesti</button>
+</div>
+
+<header>
+    <h1 id="title">Hugo Luca Tigane</h1>
+    <p id="tagline">Student at Tallin University.</p>
+</header>
+
+<div class="timeline">
+    <h2 style="text-align:center; margin-bottom:20px;" id="history">Experience & Education</h2>
+    <div class="timeline-container">
+        <div class="timeline-entry left">
+            <h3 id="place1_title"></h3>
+            <p id="place1_text"></p>
+            <span id="place1_time"></span>
+        </div>
+        <div class="timeline-entry right">
+            <h3 id="place2_title"></h3>
+            <p id="place2_text"></p>
+            <span id="place2_time"></span>
+        </div>
+        <div class="timeline-entry left">
+            <h3 id="place3_title"></h3>
+            <p id="place3_text"></p>
+            <span id="place3_time"></span>
+        </div>
+    </div>
+</div>
+
+<h2 style="text-align:center; margin-bottom:20px;" id="proj">Projects & Github</h2>
+<div class="projects">
+    <div class="card" onclick="window.open('https://kino-yles-theta.vercel.app/home','_blank')">
+        <h3 id="proj1_title">Cinema application</h3>
+        <p id="proj1_desc">An application that shows movies currently shown in Estonian cinemas</p>
+    </div>
+    <div class="card" onclick="window.open('https://dlg.tlu.ee/mitigate/','_blank')">
+        <h3 id="proj2_title">Mitigate Online</h3>
+        <p id="proj2_desc">A serious game with the main purpose of developing students decision making skills.</p>
+    </div>
+    <div class="card" onclick="window.open('https://github.com/HugoLucaT','_blank')">
+        <h3 id="proj3_title">Github</h3>
+        <p id="proj3_desc">My github, where you can see my other, smaller public projects.</p>
+    </div>
+</div>
+
+<div class="bottom">
+    <div id="contact_container">
+        <p id="contact_text">Contact: </p>
+        <strong id="email" class="copy-email" style="cursor:pointer; text-decoration:underline;" onclick="copyEmail()">
+            hugolucatigane@gmail.com
+        </strong>
+        <span id="tooltip">Copied!</span>
+    </div>
+    
+    <p>2025 - Hugo Luca Tigane</p>
+</div>
+
+<script>
+    function copyEmail() {
+        const emailEl = document.getElementById('email');
+        const tooltip = document.getElementById('tooltip');
+        const email = emailEl.textContent;
+
+        navigator.clipboard.writeText(email).then(() => {
+            tooltip.classList.add('show');
+
+            setTimeout(() => {
+                tooltip.classList.remove('show');
+            }, 1500);
+        }).catch(err => {
+            console.error('Failed to copy email: ', err);
+        });
+    }
+
+    const translations = {
+        en: {
+            tagline: "3rd-year Computer Science student at Tallinn University.",
+            history: "Experience & Education",
+            place1_title: "Pelgulinna Gümnaasium",
+            place1_text: "Focused on a pragmatic curriculum",
+            place1_time: "September 2010 – June 2022",
+            place2_title: "Meriton Old Town Garden Hotel",
+            place2_text: "Administrator",
+            place2_time: "March 2023 – August 2023",
+            place3_title: "Tallinn University",
+            place3_text: "Computer Science student with a focus on software development. Currently expected to graduate in Summer 2026. Current GPA: 4.808/5.",
+            place3_time: "September 2023 – present",
+            proj: "Projects & GitHub",
+            proj1_title: "Cinema Application",
+            proj1_desc: "An application that displays movies currently showing in Estonian cinemas.",
+            proj2_title: "Mitigate Online",
+            proj2_desc: "A serious game designed to develop students' decision-making skills. I served as the project lead.",
+            proj3_title: "GitHub",
+            proj3_desc: "My GitHub profile, where you can find other smaller public projects.",
+            contact_text: "Contact: ",
+            tooltip: "Copied email"
+        },
+        est: {
+            tagline: "Kolmanda aasta informaatika tudeng Tallinna Ülikoolis.",
+            history: "Kogemus ja haridus",
+            place1_title: "Pelgulinna Gümnaasium",
+            place1_text: "Pragmaatilise suunaga õppekava",
+            place1_time: "2010. September – 2022. Juuni",
+            place2_title: "Meriton Old Town Garden Hotel",
+            place2_text: "Administraator",
+            place2_time: "2023. märts – 2023. august",
+            place3_title: "Tallinna Ülikool",
+            place3_text: "Informaatika tudeng tarkvaraarenduse suunaga. Plaanin lõpetada 2026. suvel. Hetke keskmine kaalutud hinne: 4,808/5.",
+            place3_time: "2023. September – praegu",
+            proj: "Projektid ja GitHub",
+            proj1_title: "Kino rakendus",
+            proj1_desc: "Rakendus, millega saab näha Eestis kinodes linastuvaid filme.",
+            proj2_title: "Mitigate Online",
+            proj2_desc: "Õpimäng, mille eesmärk on arendada õpilaste otsustusoskust. Olin projektijuht.",
+            proj3_title: "GitHub",
+            proj3_desc: "Minu GitHub, kus on näha ka teised väiksemad avalikud projektid.",
+            contact_text: "Kontakt: ",
+            tooltip: "Email kopeeritud"
+        }
+
+    };
+
+    function setLanguage(lang) {
+        for (const id in translations[lang]) {
+            document.getElementById(id).innerHTML = translations[lang][id];
+        }
+    }
+
+    setLanguage('est');ˇ
+</script>
+
+</body>
+</html>
