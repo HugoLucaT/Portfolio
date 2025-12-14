@@ -102,28 +102,6 @@
         font-size: 0.85rem;
     }
 
-    @media screen and (max-width: 768px) {
-        .timeline-entry {
-            width: 100%;
-            padding-left: 40px;
-            padding-right: 20px;
-            text-align: left !important;
-        }
-
-        .timeline-entry.left, .timeline-entry.right {
-            left: 0 !important;
-        }
-
-        .timeline-entry::before {
-            left: 20px !important;
-        }
-
-        .timeline-container::after {
-            left: 20px;
-        }
-    }
-
-
     .lang-switch {
         position: fixed;
         top: 20px;
@@ -214,6 +192,47 @@
     #tooltip.show {
         visibility: visible;
         opacity: 1;
+    }
+
+    @media screen and (max-width: 840px) {
+        .timeline-entry {
+            width: 100%;
+            padding-left: 40px;
+            padding-right: 20px;
+            text-align: left !important;
+        }
+
+        .timeline-entry.left, .timeline-entry.right {
+            left: 0 !important;
+        }
+
+        .timeline-entry::before {
+            left: 20px !important;
+        }
+
+        .timeline-container::after {
+            left: 20px;
+        }
+
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        #title {
+            padding-top: 40px;
+        }
+
+        .projects{
+            padding-bottom: 40px;
+        }
+
+        .bottom {
+            position: absolute;
+            bottom: 0px;
+        }
     }
 
 </style>
@@ -310,7 +329,7 @@
             place3_title: "Tallinn University",
             place3_text: "Computer Science student with a focus on software development. Currently expected to graduate in Summer 2026. Current GPA: 4.808/5.",
             place3_time: "September 2023 – present",
-            proj: "Biggest Projects & GitHub",
+            proj: "Projects & GitHub",
             proj1_title: "Cinema Application",
             proj1_desc: "An application that displays movies currently showing in Estonian cinemas.",
             proj2_title: "Mitigate Online",
@@ -332,7 +351,7 @@
             place3_title: "Tallinna Ülikool",
             place3_text: "Informaatika tudeng tarkvaraarenduse suunaga. Plaanin lõpetada 2026. suvel. Hetke keskmine kaalutud hinne: 4,808/5.",
             place3_time: "2023. September – praegu",
-            proj: " Suuremad Projektid ja GitHub",
+            proj: "Projektid ja GitHub",
             proj1_title: "Kino rakendus",
             proj1_desc: "Rakendus, millega saab näha Eestis kinodes linastuvaid filme.",
             proj2_title: "Mitigate Online",
@@ -351,7 +370,7 @@
         }
     }
 
-    setLanguage('est');ˇ
+    setLanguage('est');
 </script>
 
 </body>
